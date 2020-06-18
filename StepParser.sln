@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "StepParser", "StepParser.pyproj", "{4EA5071D-D2F4-4A28-8DF8-1D0EC1A5F993}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4EA5071D-D2F4-4A28-8DF8-1D0EC1A5F993}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4EA5071D-D2F4-4A28-8DF8-1D0EC1A5F993}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3AB30518-7FD7-4CAF-B7EC-2DF870C2CD23}
+	EndGlobalSection
+EndGlobal
