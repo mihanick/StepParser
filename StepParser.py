@@ -1,6 +1,9 @@
 from Entity import *
 from StringExtensions import *
 
+# Parallel processing with Pool.apply_async()
+import multiprocessing as mp
+
 # На входе #1503= IFCPROPERTYSINGLEVALUE('SelfClosing',$,IFCBOOLEAN(.F.),$);
 def parse_definition(raw_line):
     result = None
@@ -16,7 +19,7 @@ def parse_definition(raw_line):
 
         result.id= id
     else:
-        result = Entity(raw_line)
+        result = Encoder(raw_line).unescape()
 
     return result
 
@@ -27,15 +30,12 @@ def parse_token(line):
     result = Token(line)
     result.name = line[:first_bracket].strip()
     attribute_line = line[first_bracket:].strip()
-    s = Set(attribute_line)
-    s.entities= parse_line(attribute_line)
-
-    result.arguments = s
+    result.arguments = parse_set(attribute_line)
 
     return result
 
 # На входе строчка: ($,'\X2\041D0435\X0\ \X2\043E043F0440043504340435043B0435043D\X0\',$,$,$,$,$,$)
-def parse_line(line):
+def parse_set(line):
     result = []
     if line is not None:
         set_contents = split_set(line)
@@ -56,20 +56,19 @@ def parse_entity(line):
 
     if first_symbol == "\'":
         ss = line.strip()[1:-1]
-        result = Identifier(ss)
+        result = Encoder(ss).unescape()
     elif first_symbol == '(':
-        result = Set(line)
-        result.entities = parse_line(line)
+        result = parse_set(line)
     elif first_symbol == '$': # step null value
         result = None
     elif first_symbol == '*': # step undefined value
         result = None
     elif first_symbol == '.': # predefined words like .ELEMENT.
-        result = Anchor(line)
+        result = line
     elif first_symbol == '#':
         result = Anchor(line)
     elif first_symbol.isnumeric() or first_symbol == '+' or first_symbol == '-':
-        result = NumericValue(line)
+        result = float(line)
     else:
         result = parse_token(line)
 
