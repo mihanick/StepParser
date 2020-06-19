@@ -96,3 +96,37 @@ def parse_file(filename):
                 
     return result
 
+def pool_parse_file(filename):
+    result = []
+    block_size = 1024*8
+    remainder = ''
+    pool = mp.Pool(mp.cpu_count())
+
+    results = []
+
+    def collect(res):
+        global results
+        results.append(res)
+
+
+    with open(filename) as fp:
+        while True:
+            chunk = fp.read(block_size)
+            if not chunk:
+                break
+            v = remainder + chunk
+            
+            for line in v.splitlines():
+                if line.rstrip().endswith(';'):
+                    remainder = ''
+                    # lines.append(line)
+                    pool.apply_async(parse_definition, args=(line), callback=collect)
+                else:
+                    remainder += line
+    
+    #result = pool.map(parse_definition, [line for line in lines])
+    pool.close()          
+    pool.join()
+
+    result.extend(results)
+    return result
