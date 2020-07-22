@@ -12,7 +12,7 @@ def parse_definition(raw_line):
     if raw_line.strip().startswith('#'):
         id,remainder = raw_line.split('=', maxsplit = 1)
 
-        id = id = id.strip()[1:] #remove first #hash
+        id = id.strip()[1:] #remove first #hash
         remainder = remainder.strip()[:-1]#remove trailing ;semicolumn
 
         result = parse_token(remainder)
@@ -48,11 +48,12 @@ def parse_entity(line):
 
     if line == '':
         return None
+    line = line.strip()
 
 	# https://habr.com/ru/post/460719/
 	# Также символ $ означает null-значение, символ * используется если потомок сам присваивает значению атрибуту предка. Значения типа enum записываются между двумя точками — .ELEMENT.
     result = None
-    first_symbol = line.strip()[0]
+    first_symbol = line[0]
 
     if first_symbol == "\'":
         ss = line.strip()[1:-1]
